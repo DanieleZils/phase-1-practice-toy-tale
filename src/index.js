@@ -1,4 +1,6 @@
 let addToy = false;
+const toyForm = document.querySelector('.add-toy-form');
+
 // const toyDisplay = document.getElementById("toy-collection");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
+ fetchRequest();
+ 
 });
 
 //fetch request
@@ -43,6 +47,8 @@ function renderToy(toy) {
     button.innerText = "Like ❤️"
     button.classList.add("like-btn")
     button.id = `${toy.id}`
+    button.addEventListener( 'click', increaseLikes )
+
   
     div.appendChild(h2)
     div.appendChild(img)
@@ -53,4 +59,47 @@ function renderToy(toy) {
 
 }
 
-fetchRequest()
+ toyForm.addEventListener("submit", (e) => {
+  e.preventDefault()
+
+    // what we send needs to look like what's in the database
+    const newToyObj = {
+      name: e.target.name.value,
+      image: e.target.image.value,
+      likes: 0
+    }
+
+   fetch ('http://localhost:3000/toys', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json" },
+    body: JSON.stringify( newToyObj )  
+    })
+      .then(r => r.json())
+      .then( freshToy => {
+			   renderToy( freshToy )
+       })
+      })
+       // end of toyForm event listener
+
+//need to look over how to increase likes:
+
+function increaseLikes( e ) {
+
+	const id = e.target.id
+
+	const likesElement = e.target.parentElement.querySelector( 'p' )
+	splitStringArray = likesElement.innerText.split( ' ' )
+	const newNumber = parseInt( splitStringArray[0] ) + 1
+
+	fetch( `http://localhost:3000/toys/${id}`, {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify( {
+			likes: newNumber
+		} )
+	} )
+		.then( r => r.json() )
+		.then( someFreshToyObj => {
+			likesElement.innerText = `${someFreshToyObj.likes} likes`
+		} )
+}
