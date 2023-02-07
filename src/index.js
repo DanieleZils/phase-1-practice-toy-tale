@@ -13,3 +13,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+//fetch request
+
+const fetchRequest = () => {
+  fetch('http://localhost:3000/toys')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(toy => renderToy(toy))
+  })
+
+}
+
+fetchRequest();
+
+function renderToy(toy) {
+  
+
+}
