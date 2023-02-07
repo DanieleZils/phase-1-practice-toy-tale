@@ -28,6 +28,15 @@ const fetchRequest = () => {
 fetchRequest();
 
 function renderToy(toy) {
-  
+  let div = document.createElement("div")
+  let h2 = document.createElement("h2")
+  let img = document.createElement("img")
+  let p = document.createElement("p")
+  let button = document.createElement("button")
 
+div.classList.add("card")
+h2.innerText=toy.name
+img.src=toy.img
+img.classList.add("toy-avatar")
+p.innerText=
 }
