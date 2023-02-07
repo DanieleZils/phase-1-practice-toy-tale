@@ -1,4 +1,5 @@
 let addToy = false;
+// const toyDisplay = document.getElementById("toy-collection");
 
 document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
@@ -25,18 +26,31 @@ const fetchRequest = () => {
 
 }
 
-fetchRequest();
 
 function renderToy(toy) {
+  const toyDisplay = document.getElementById("toy-collection")
   let div = document.createElement("div")
   let h2 = document.createElement("h2")
   let img = document.createElement("img")
   let p = document.createElement("p")
   let button = document.createElement("button")
 
-div.classList.add("card")
-h2.innerText=toy.name
-img.src=toy.img
-img.classList.add("toy-avatar")
-p.innerText=
+    div.classList.add("card")
+    h2.innerText = toy.name
+    img.src = toy.image
+    img.classList.add("toy-avatar")
+    p.innerText = `${toy.likes} likes`
+    button.innerText = "Like ❤️"
+    button.classList.add("like-btn")
+    button.id = `${toy.id}`
+  
+    div.appendChild(h2)
+    div.appendChild(img)
+    div.appendChild(p)
+    div.appendChild(button)
+  
+    toyDisplay.appendChild(div)
+
 }
+
+fetchRequest()
